@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/gocraft/dbr/dialect"
+	"github.com/muroachanf/dbr/dialect"
 )
 
 // Open creates a Connection.
