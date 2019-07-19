@@ -27,6 +27,7 @@ type SelectStmt struct {
 
 	LimitCount  int64
 	OffsetCount int64
+	Locktype    string
 }
 
 type SelectBuilder = SelectStmt
@@ -131,6 +132,12 @@ func (b *SelectStmt) Build(d Dialect, buf Buffer) error {
 		buf.WriteString(" OFFSET ")
 		buf.WriteString(strconv.FormatInt(b.OffsetCount, 10))
 	}
+
+	if b.Locktype != "" {
+		buf.WriteString(" FOR ")
+		buf.WriteString(b.Locktype)
+	}
+
 	return nil
 }
 
@@ -266,6 +273,11 @@ func (b *SelectStmt) Limit(n uint64) *SelectStmt {
 
 func (b *SelectStmt) Offset(n uint64) *SelectStmt {
 	b.OffsetCount = int64(n)
+	return b
+}
+
+func (b *SelectStmt) Forlock(locktype string) *SelectStmt {
+	b.Locktype = locktype
 	return b
 }
 
